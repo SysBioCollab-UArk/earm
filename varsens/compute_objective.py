@@ -20,7 +20,8 @@ except:
     pass
 
 reference = odesolve(model, t, integrator='lsoda', nsteps=5000)
-keys = model.parameters.keys()
+allkeys = model.parameters.keys()
+keys = [k for k in allkeys if not k.endswith("_0")]
 
 # Given a set of parameters, determine outcome
 def objective(x):

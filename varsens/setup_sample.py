@@ -30,7 +30,8 @@ reference = odesolve(model, t, integrator='lsoda', nsteps=5000)
 exec_t = time.time() - t0
 
 
-keys = model.parameters.keys()
+allkeys = model.parameters.keys()
+keys = [k for k in allkeys if not k.endswith("_0")]
 k = len(keys) # Dimensions (i.e. parameters)
 n = 10000     # Number of samples
 
