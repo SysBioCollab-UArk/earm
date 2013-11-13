@@ -33,7 +33,7 @@ exec_t = time.time() - t0
 allkeys = model.parameters.keys()
 keys = [k for k in allkeys if not k.endswith("_0")]
 k = len(keys) # Dimensions (i.e. parameters)
-n = 10000              # Number of samples
+n = 10000     # Number of samples
 
 # Just how bad is it going to be!
 print "Evaluations required is %d\n" % (n*(2*k+2))
@@ -49,7 +49,8 @@ def objective(x):
             np.sum((reference['cPARP'] - x['cPARP'])**2/10000)]
 
 # Magnitude scaling a [0..1] set of points into the +/- 3 orders of magnitude
-def scaling(points): return scale.magnitude(points, np.array([model.parameters[k].value for k in keys]))
+def scaling(points):
+    return scale.magnitude(points, np.array([model.parameters[k].value for k in keys]), orders=1.5)
 
 sample = Sample(k, n, scaling)
 sample.export("/scratch/garbetsp/varsens/samples/earm-batch-", ".csv", 11636)
