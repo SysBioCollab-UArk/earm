@@ -7,6 +7,9 @@ import time
 
 import os, errno
 
+location = "/scratch/garbetsp/varsens/samples"
+#location = "/Users/garbetsp/Projects/earm/samples/samples"
+
 def mkdir_p(path):
     try:
         os.makedirs(path)
@@ -15,7 +18,7 @@ def mkdir_p(path):
             pass
         else: raise
 
-mkdir_p("/scratch/garbetsp/varsens/samples")
+mkdir_p(location)
 
 # Why the first lsoda fails on ACCRE is a mystery
 t = np.linspace(0, 20000, 10001)
@@ -52,6 +55,6 @@ def objective(x):
 def scaling(points):
     return scale.magnitude(points, np.array([model.parameters[k].value for k in keys]), orders=1.5)
 
-sample = Sample(k, n, scaling)
-sample.export("/scratch/garbetsp/varsens/samples/earm-batch-", ".csv", 11636)
+sample = Sample(k, n, scaling, loadFile="/Users/garbetsp/Projects/varsens/quantlib/dim-106-20000.csv")
+sample.export(location+"/earm-batch-", ".csv", 11636)
 
