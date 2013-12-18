@@ -53,8 +53,8 @@ def objective(x):
 
 # Magnitude scaling a [0..1] set of points into the +/- 3 orders of magnitude
 def scaling(points):
-    return scale.magnitude(points, np.array([model.parameters[k].value for k in keys]), orders=1.5)
+    return scale.magnitude(points, np.array([model.parameters[k].value for k in keys]), orders=1.0)
 
-sample = Sample(k, n, scaling, loadFile="/Users/garbetsp/Projects/varsens/quantlib/dim-106-20000.csv")
+sample = Sample(k, n, scaling, loadFile="/home/garbetsp/dim-106-10000.csv")
 sample.export(location+"/earm-batch-", ".csv", 11636)
 
