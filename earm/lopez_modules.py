@@ -166,6 +166,7 @@ def declare_initial_conditions():
 
 def translocate_tBid_Bax_BclxL():
     """tBid, Bax and BclXL translocate to the mitochondrial membrane."""
+    alias_model_components()
     equilibrate(Bid(bf=None, state='T'), Bid(bf=None, state='M'), [1e-1, 1e-3])
 
     free_Bax = Bax(bf=None, s1=None, s2=None) # Alias for readability
@@ -177,6 +178,7 @@ def translocate_tBid_Bax_BclxL():
 
 def tBid_activates_Bax_and_Bak():
     """tBid activates Bax and Bak."""
+    alias_model_components()
     catalyze(Bid(state='M'), Bax(state='M'), Bax(state='A'), activation_rates)
     catalyze(Bid(state='M'), Bak(state='M'), Bak(state='A'), activation_rates)
 
@@ -198,6 +200,7 @@ def tBid_binds_all_anti_apoptotics():
     determine cellular addiction to antiapoptotic BCL-2 family members. Cancer
     Cell, 9(5), 351-365. `doi:10.1016/j.ccr.2006.03.027`
     """
+    alias_model_components()
     # Doug Green's "MODE 1" inhibition
     bind_table([[                        Bcl2,  BclxL(state='M'),  Mcl1(state='M')],
                 [Bid(state='M'),  66e-9*N_A*V,       12e-9*N_A*V,      10e-9*N_A*V]],
@@ -209,6 +212,7 @@ def sensitizers_bind_anti_apoptotics():
     See comments on units for :py:func:`tBid_binds_all_anti_apoptotics`.
     """
 
+    alias_model_components()
     bind_table([[                        Bcl2,  BclxL(state='M'),  Mcl1(state='M')],
                 [Bad(state='M'),  11e-9*N_A*V,       10e-9*N_A*V,             None],
                 [Noxa(state='M'),        None,              None,      19e-9*N_A*V]],
@@ -236,6 +240,7 @@ def effectors_bind_anti_apoptotics():
     9580-9586.  `doi:10.1074/jbc.M708426200`
     """
 
+    alias_model_components()
     bind_table([[                            Bcl2,  BclxL(state='M'),         Mcl1],
                 [Bax(active_monomer), 10e-9*N_A*V,       10e-9*N_A*V,         None],
                 [Bak(active_monomer),        None,       50e-9*N_A*V,  10e-9*N_A*V]],
@@ -267,6 +272,17 @@ def lopez_pore_formation(do_pore_transport=True):
         pore_transport(Bak(bf=None, state='A'), 4, Smac(state='M'),
                        Smac(state='C'), pore_transport_rates)
 
+def effector_auto_activation():
+    """Auto-activation of Bax and Bak when not part of a complex."""
+    
+    alias_model_components()
+    # Autoactivation: Bax and Bak activate their own kind, but only when
+    # free (i.e. not part of a pore complex)
+    catalyze(Bax(active_monomer), Bax(state='M'), Bax(state='A'),
+             activation_rates)
+    catalyze(Bak(active_monomer), Bak(state='M'), Bak(state='A'),
+             activation_rates)
+
 # MOMP model implementations
 # ==========================
 
@@ -281,12 +297,7 @@ def embedded(do_pore_transport=True):
 
     tBid_activates_Bax_and_Bak()
 
-    # Autoactivation: Bax and Bak activate their own kind, but only when
-    # free (i.e. not part of a pore complex)
-    catalyze(Bax(active_monomer), Bax(state='M'), Bax(state='A'),
-             activation_rates)
-    catalyze(Bak(active_monomer), Bak(state='M'), Bak(state='A'),
-             activation_rates)
+    effector_auto_activation()
 
     # Anti-apoptotics bind activator tBid
     # Doug Green's "MODE 1" inhibition
