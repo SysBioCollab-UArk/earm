@@ -130,7 +130,7 @@ def apaf1_to_parp_monomers():
 
     # == Annotations
     Annotation(Apaf, 'http://identifiers.org/uniprot/O14727')
-    Annotation(Apop, 'http://identifiers.org/obo.go/GO:0043293') 
+    Annotation(Apop, 'http://identifiers.org/obo.go/GO:0043293')
     Annotation(C3, 'http://identifiers.org/uniprot/P42574')
     Annotation(C6, 'http://identifiers.org/uniprot/P55212')
     Annotation(C9, 'http://identifiers.org/uniprot/P55211')
@@ -170,9 +170,9 @@ def rec_to_bid():
     # Declare initial conditions for ligand, receptor, Flip, C8, and Bar.
     Parameter('L_0',       3000) # 3000 Ligand corresponds to 50 ng/ml SK-TRAIL
     Parameter('R_0'     ,   200) # 200 TRAIL receptor
-    Parameter('flip_0'  , 1.0e2) # Flip
-    Parameter('C8_0'    , 2.0e4) # procaspase-8
-    Parameter('BAR_0'   , 1.0e3) # Bifunctional apoptosis regulator
+    Parameter('flip_0'  , 1.0e2) # Flip 1.0e2
+    Parameter('C8_0'    , 2.0e4) # procaspase-8 2.0e4
+    Parameter('BAR_0'   , 1.0e3) # Bifunctional apoptosis regulator 1.0e3
 
     # Needed to recognize the monomer and parameter names in the present scope
     alias_model_components()
@@ -196,7 +196,7 @@ def rec_to_bid():
     # ---------------------
     # Inhibition Rules
     # ---------------------
-    #        flip + DISC <-->  flip:DISC  
+    #        flip + DISC <-->  flip:DISC
     #        C8 + BAR <--> BAR:C8
     # ---------------------
     bind(DISC(), flip(), [KF, KR])
@@ -251,15 +251,15 @@ def pore_to_parp():
 
     catalyze(CytoC(state='A'), Apaf(state='I'), Apaf(state='A'), [5e-7, KR, KC])
     one_step_conv(Apaf(state='A'), C9(), Apop(bf=None), [5e-8, KR])
-    catalyze(Apop(), C3(state='pro'), C3(bf=None, state='A'), [5e-9, KR, KC]) 
+    catalyze(Apop(), C3(state='pro'), C3(bf=None, state='A'), [5e-9, KR, KC])
 
     # Apoptosome-related inhibitors
     # -----------------------------
-    #   Apop + XIAP <-->  Apop:XIAP  
-    #   cSmac + XIAP <-->  cSmac:XIAP  
+    #   Apop + XIAP <-->  Apop:XIAP
+    #   cSmac + XIAP <-->  cSmac:XIAP
 
-    bind(Apop(), XIAP(), [2e-6, KR]) 
-    bind(Smac(state='A'), XIAP(), [7e-6, KR]) 
+    bind(Apop(), XIAP(), [2e-6, KR])
+    bind(Smac(state='A'), XIAP(), [7e-6, KR])
 
     # Caspase reactions
     # -----------------
@@ -296,7 +296,7 @@ def Bax_tetramerizes(bax_active_state='A', rate_scaling_factor=1):
         dimerization and tetramerization to occur.
     rate_scaling_factor : number
         A scaling factor applied to the forward rate constants for dimerization
-        and tetramerization. 
+        and tetramerization.
     """
 
     active_unbound = {'state': bax_active_state, 'bf': None}
