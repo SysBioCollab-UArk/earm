@@ -6,7 +6,7 @@ import pylab
 import pysb.integrate
 import pysb.util
 import numpy as np
-
+import os
 import matplotlib.pyplot as plt
 
 
@@ -15,9 +15,26 @@ from pysb.bng import run_ssa
 from pysb.integrate import odesolve
 
 t = np.linspace(0,20000,1000)
+data_filename = os.path.join(os.path.dirname(__file__), 'experimental_data.npy')
 
+ydata_norm = numpy.load(data_filename)
+
+exp_var = 0.2
+
+tspan = np.linspace(0,5.5 * 3600,len(ydata_norm))  # 5.5 hours, in seconds
+obs_names = ['mBid', 'aSmac', 'cPARP']
+
+
+def normalize(trajectories):
+    """Rescale a matrix of model trajectories to 0-1"""
+    ymin = trajectories.min(0)
+    ymax = trajectories.max(0)
+    return (trajectories - ymin) / (ymax - ymin)
+
+def extract_records(recarray, names):
+    """Convert a record-type array and list of names into a float array"""
+    return numpy.vstack([recarray[name] for name in names]).T
 def run(model,name):
-
     x = odesolve(model,t)
     for j,obs in enumerate(model.observables):
         #plt.figure(str(obs))
@@ -31,7 +48,21 @@ def run(model,name):
         plt.ylabel("Concentration")
         plt.ticklabel_format(useOffset=False)
         plt.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
-
+def display(model):
+    solver = pysb.integrate.Solver(model, tspan, integrator='vode',  with_jacobian=True,rtol=1e-5, atol=1e-5,)
+    solver.run()    
+    ysim_array = extract_records(solver.yobs, obs_names)
+    ysim_norm = normalize(ysim_array)
+    count=1
+    for j,obs_name in enumerate(obs_names):
+      plt.subplot(3,1,count)
+      plt.plot(solver.tspan,ysim_norm[:,j])
+      plt.plot(solver.tspan,ydata_norm[:,j],'-x')
+      plt.title(str(obs_name))
+      count+=1
+    plt.ylabel('concentration')
+    plt.xlabel('time (s)')
+    plt.show()
 def run2(model,name):
     x = run_ssa(model,t)
     #x = odesolve(model,t)
@@ -51,7 +82,7 @@ def run2(model,name):
 from earm.lopez_direct import model as model1
 from earm.lopez_indirect import model as model2
 from earm.lopez_embedded import model as model3
-#run(model1,' direct')
+run(model1,' direct')
 #run(model2,' indirect')
 #run(model3,' embedded')
 #plt.show()
