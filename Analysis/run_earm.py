@@ -15,6 +15,7 @@ from pysb.bng import run_ssa
 from pysb.integrate import odesolve
 
 t = np.linspace(0,20000,1000)
+<<<<<<< HEAD:run_earm.py
 data_filename = os.path.join(os.path.dirname(__file__), 'experimental_data.npy')
 
 ydata_norm = numpy.load(data_filename)
@@ -23,6 +24,9 @@ exp_var = 0.2
 
 tspan = np.linspace(0,5.5 * 3600,len(ydata_norm))  # 5.5 hours, in seconds
 obs_names = ['mBid', 'aSmac', 'cPARP']
+=======
+def run(model,name):
+>>>>>>> 49a67f4164cc63584bf1a99ae5c82659b6186eb6:Analysis/run_earm.py
 
 
 def normalize(trajectories):
@@ -36,6 +40,7 @@ def extract_records(recarray, names):
     return numpy.vstack([recarray[name] for name in names]).T
 def run(model,name):
     x = odesolve(model,t)
+<<<<<<< HEAD:run_earm.py
     for j,obs in enumerate(model.observables):
         #plt.figure(str(obs))
         plt.subplot(len(model.observables),1,j)
@@ -63,6 +68,24 @@ def display(model):
     plt.ylabel('concentration')
     plt.xlabel('time (s)')
     plt.show()
+=======
+    #print model.odes
+    for i,j in enumerate(model.odes):
+        print i,j
+#     for j,obs in enumerate(model.observables):
+#         #plt.figure(str(obs))
+#         plt.subplot(len(model.observables),1,j)
+#         plt.title(str(obs))
+#         plt.plot(t[:len(x[str(obs)])],x[str(obs)],lw=3)#label=name)
+#         #plt.plot(t[:len(y[str(obs)])],y[str(obs)],lw=2,label=str(obs)+name)
+#         plt.legend(loc=0)
+#         plt.xlim(xmax=t[-1])
+#         plt.xlabel("Time")
+#         plt.ylabel("Concentration")
+#         plt.ticklabel_format(useOffset=False)
+#         plt.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
+
+>>>>>>> 49a67f4164cc63584bf1a99ae5c82659b6186eb6:Analysis/run_earm.py
 def run2(model,name):
     x = run_ssa(model,t)
     #x = odesolve(model,t)
@@ -82,7 +105,12 @@ def run2(model,name):
 from earm.lopez_direct import model as model1
 from earm.lopez_indirect import model as model2
 from earm.lopez_embedded import model as model3
+<<<<<<< HEAD:run_earm.py
 run(model1,' direct')
+=======
+
+#run(model1,' direct')
+>>>>>>> 49a67f4164cc63584bf1a99ae5c82659b6186eb6:Analysis/run_earm.py
 #run(model2,' indirect')
 #run(model3,' embedded')
 #plt.show()
@@ -102,5 +130,5 @@ def sample(model):
 #    plt.title(model3.species[i])
 #    plt.plot(t,x['__s'+str(i)])
 #    plt.show()
-for i in xrange(10):
+for i in xrange(1):
     run(model3,'h')
