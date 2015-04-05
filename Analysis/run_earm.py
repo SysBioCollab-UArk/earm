@@ -15,22 +15,24 @@ from pysb.bng import run_ssa
 from pysb.integrate import odesolve
 
 t = np.linspace(0,20000,1000)
-
 def run(model,name):
 
     x = odesolve(model,t)
-    for j,obs in enumerate(model.observables):
-        #plt.figure(str(obs))
-        plt.subplot(len(model.observables),1,j)
-        plt.title(str(obs))
-        plt.plot(t[:len(x[str(obs)])],x[str(obs)],lw=3)#label=name)
-        #plt.plot(t[:len(y[str(obs)])],y[str(obs)],lw=2,label=str(obs)+name)
-        plt.legend(loc=0)
-        plt.xlim(xmax=t[-1])
-        plt.xlabel("Time")
-        plt.ylabel("Concentration")
-        plt.ticklabel_format(useOffset=False)
-        plt.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
+    #print model.odes
+    for i,j in enumerate(model.odes):
+        print i,j
+#     for j,obs in enumerate(model.observables):
+#         #plt.figure(str(obs))
+#         plt.subplot(len(model.observables),1,j)
+#         plt.title(str(obs))
+#         plt.plot(t[:len(x[str(obs)])],x[str(obs)],lw=3)#label=name)
+#         #plt.plot(t[:len(y[str(obs)])],y[str(obs)],lw=2,label=str(obs)+name)
+#         plt.legend(loc=0)
+#         plt.xlim(xmax=t[-1])
+#         plt.xlabel("Time")
+#         plt.ylabel("Concentration")
+#         plt.ticklabel_format(useOffset=False)
+#         plt.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
 
 def run2(model,name):
     x = run_ssa(model,t)
@@ -51,6 +53,7 @@ def run2(model,name):
 from earm.lopez_direct import model as model1
 from earm.lopez_indirect import model as model2
 from earm.lopez_embedded import model as model3
+
 #run(model1,' direct')
 #run(model2,' indirect')
 #run(model3,' embedded')
@@ -71,5 +74,5 @@ def sample(model):
 #    plt.title(model3.species[i])
 #    plt.plot(t,x['__s'+str(i)])
 #    plt.show()
-for i in xrange(10):
+for i in xrange(1):
     run(model3,'h')
