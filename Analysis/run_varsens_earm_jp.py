@@ -8,7 +8,8 @@ Created on Fri Jul 11 17:27:41 2014
 #!/usr/bin/env python
 
 from varsens import *
-from earm.lopez_embedded import model
+#from earm.lopez_embedded import model
+from earm.lopez_indirect import model
 from pysb.integrate import Solver, odesolve
 from pysb.util import load_params
 import os
@@ -23,10 +24,10 @@ import multiprocessing
 import multiprocessing as mp
 import math
 from pysb.util import load_params
-param_dict = load_params("EARM_pso_fitted_params.txt")
-for param in model.parameters:
-    if param.name in param_dict:
-        param.value = param_dict[param.name]
+#param_dict = load_params("EARM_pso_fitted_params.txt")
+#for param in model.parameters:
+#    if param.name in param_dict:
+#        param.value = param_dict[param.name]
 
 
 tspan = np.linspace(0, 20000, 1000)
@@ -105,7 +106,7 @@ def likelihood(position):
             t90 = 0
 
     td = (t10 + t90) / 2
-    return time_of_death - td
+    return (td - time_of_death)/ time_of_death
 # 
 # print initial_tmp
 # solver.run(initial_changes=initial_tmp)
@@ -123,12 +124,12 @@ def OBJ(block):
 if "__main__":# main():
     import time
     start = time.time()
-    n_samples = 100
-    sample = Sample(len(proteins_of_interest), n_samples, lambda x: scale.linear(x, lower_bound=0.5*initial_vals, upper_bound=5*initial_vals), verbose=True)
+    n_samples = 1000
+    sample = Sample(len(proteins_of_interest), n_samples, lambda x: scale.linear(x, lower_bound=0.75*initial_vals, upper_bound=1.25*initial_vals), verbose=True)
     sample = sample.flat()
     m = mp.Manager()
     obj_values = m.dict()
-    p = mp.Pool(8,initializer = init, initargs=(sample,obj_values))
+    p = mp.Pool(4,initializer = init, initargs=(sample,obj_values))
     allblocks =range(len(sample))
     p.imap_unordered(OBJ,allblocks)
     p.close()
@@ -138,25 +139,25 @@ if "__main__":# main():
     objective = Objective(len(proteins_of_interest), n_samples, objective_vals=obj_vals)
     v = Varsens(objective,verbose=True)
     print 'time of '+str(np.shape(sample)[0])+' calculations '+ str(time.time() - start)
-    np.savetxt('sens_protein_concentration_earm.txt',v.sens)
-    np.savetxt('senst_protein_concentration_earm.txt',v.sens_t)
-    np.savetxt('sens2_protein_concentration_earm.txt',v.sens_2n[:,0,:,0])
+    np.savetxt('%s_sens_protein_concentration_earm.txt'%model.name,v.sens)
+    np.savetxt('%s_senst_protein_concentration_earm.txt'%model.name,v.sens_t)
+    np.savetxt('%s_sens2_protein_concentration_earm.txt'%model.name,v.sens_2n[:,0,:,0])
     plt.plot(v.sens)
     plt.xticks(range(len(proteins_of_interest)),proteins_of_interest)
-    plt.savefig('sens.png')
-    plt.show()
+    plt.savefig('%s_sens.png'%model.name)
+    plt.clf()
     plt.plot(v.sens_t)
     plt.xticks(range(len(proteins_of_interest)),proteins_of_interest)
-    plt.savefig('senst.png')
-    plt.show()
+    plt.savefig('%s_senst.png'%model.name)
+    plt.clf()
     plt.plot(v.sens)
     plt.plot(v.sens_t)
-    plt.show()
+    plt.clf()
     plt.imshow(v.sens_2n[:,0,:,0],origin='lower',interpolation='nearest')
     plt.colorbar()
     plt.xticks(range(len(proteins_of_interest)),proteins_of_interest)
     plt.yticks(range(len(proteins_of_interest)),proteins_of_interest)
-    plt.savefig('sens2.png')
+    plt.savefig('%s_sens2.png'%model.name)
     plt.show()
    
 
