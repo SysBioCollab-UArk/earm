@@ -170,6 +170,7 @@ def declare_initial_conditions():
 
 def translocate_tBid_Bax_BclxL():
     """tBid, Bax and BclXL translocate to the mitochondrial membrane."""
+    alias_model_components()
     equilibrate(Bid(bf=None, state='T'), Bid(bf=None, state='M'), [1e-1, 1e-3])
 
     
@@ -259,13 +260,20 @@ def lopez_pore_formation(do_pore_transport=True):
 
     # Rates
     pore_max_size = 4
-    pore_rates = [[2.040816e-04,  # 1.0e-6/v**2
-                   1e-3]] * (pore_max_size - 1)
-    pore_transport_rates = [[2.857143e-5, 1e-3, 10]] # 2e-6 / v?
+    
+    Parameter('pore_rate_Bax_kf', 2.857143e-5)
+    Parameter('pore_rate_Bax_kr', 1e-3)
+    Parameter('pore_rate_Bak_kf', 2.857143e-5)
+    Parameter('pore_rate_Bak_kr', 1e-3)
+    Parameter('pore_transport_kf', 2.857143e-5)
+    Parameter('pore_transport_kr', 1e-3)
+    Parameter('pore_transport_kc', 10)
+    alias_model_components()
+    pore_transport_rates = [[pore_transport_kf, pore_transport_kr, pore_transport_kc]]
 
     # Pore formation by effectors
-    assemble_pore_sequential(Bax(bf=None, state='A'), pore_max_size, pore_rates)
-    assemble_pore_sequential(Bak(bf=None, state='A'), pore_max_size, pore_rates)
+    assemble_pore_sequential(Bax(bf=None, state='A'), pore_max_size, [[pore_rate_Bax_kf, pore_rate_Bax_kr]]*(pore_max_size-1))
+    assemble_pore_sequential(Bak(bf=None, state='A'), pore_max_size, [[pore_rate_Bak_kf, pore_rate_Bak_kr]]*(pore_max_size-1))
 
     # CytoC, Smac release
     if do_pore_transport:
