@@ -169,10 +169,10 @@ def rec_to_bid():
 
     # Declare initial conditions for ligand, receptor, Flip, C8, and Bar.
     Parameter('L_0',       3000) # 3000 Ligand corresponds to 50 ng/ml SK-TRAIL
-    Parameter('R_0'     ,   200) # 200 TRAIL receptor
-    Parameter('flip_0'  , 1.0e2) # Flip 1.0e2
-    Parameter('C8_0'    , 2.0e4) # procaspase-8 2.0e4
-    Parameter('BAR_0'   , 1.0e3) # Bifunctional apoptosis regulator 1.0e3
+    Parameter('R_0'     ,   1000) # 200 TRAIL receptor
+    Parameter('flip_0'  , 2000) # Flip 1.0e2
+    Parameter('C8_0'    , 10000) # procaspase-8 2.0e4
+    Parameter('BAR_0'   , 1000) # Bifunctional apoptosis regulator 1.0e3
 
     # Needed to recognize the monomer and parameter names in the present scope
     alias_model_components()

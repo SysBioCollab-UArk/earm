@@ -137,10 +137,10 @@ def momp_monomers():
 def declare_initial_conditions():
     """Declare initial conditions for Bcl-2 family proteins, Cyto c, and Smac.
     """
-    Parameter('Bid_0'   , 4.0e4) # Bid 4.0e4
+    Parameter('Bid_0'   , 6.0e4) # Bid 4.0e4
     Parameter('BclxL_0' , 2.0e4) # cytosolic BclxL 2.0e4
     Parameter('Mcl1_0'  , 2.0e4) # Mitochondrial Mcl1 2.0e4
-    Parameter('Bcl2_0'  , 2.0e4) # Mitochondrial Bcl2 2.0e4
+    Parameter('Bcl2_0'  , 3.0e4) # Mitochondrial Bcl2 2.0e4
     Parameter('Bad_0'   , 1e3) # Bad 1e3
     Parameter('Noxa_0'  , 1e3) # Noxa 1e3
     Parameter('CytoC_0' , 5.0e5) # cytochrome c 5.0e5
