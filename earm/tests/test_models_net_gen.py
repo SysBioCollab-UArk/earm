@@ -73,21 +73,13 @@ def test_generate_network():
     for model in models:
         yield (check_generate_network, model)
     
+
 def check_generate_network(model):
     """Tests that network generation occurs without error for the given
     model."""
+    generate_network(model)
 
-    success = False
-
-    try:
-        generate_network(model)
-        success = True
-    except:
-        pass
-
-    assert success, "Network generation failed on model %s:\n-----\n%s" % \
-                (model.name, traceback.format_exc())
 
 if __name__ == '__main__':
-    print "Please run this file as 'nosetests %s'" % __file__
+    print("Please run this file as 'nosetests %s'" % __file__)
 

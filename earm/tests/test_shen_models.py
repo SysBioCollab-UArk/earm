@@ -78,7 +78,7 @@ def convert_odes(model, p_name_map, s_name_map_by_pattern):
     name_map.update(s_name_map_by_num)
 
     # Substitute new names into the ODEs
-    ode_list = {} 
+    ode_list = {}
     for i, ode in enumerate(model.odes):
         new_ode = ode.subs(name_map)
         ode_species = s_name_map_by_pattern[str(model.species[i])]
@@ -213,17 +213,15 @@ cui_p_name_map = {
 
 # Species mapping used by all three Cui models
 cui_s_name_map = {
-    'Bid(bf=None, state=T)': 'Act',
-    'Bad(bf=None, state=M, serine=U)': 'Ena',
-    'Bax(bf=None, s1=None, s2=None, state=C)': 'InBax',
+    "Bid(bf=None, state='T')": 'Act',
+    "Bad(bf=None, state='M', serine='U')": 'Ena',
+    "Bax(bf=None, s1=None, s2=None, state='C')": 'InBax',
     'Bcl2(bf=None)': 'Bcl2',
-    '__source()': '__source',
-    'Bax(bf=None, s1=None, s2=None, state=A)': 'AcBax',
-    'Bcl2(bf=1) % Bid(bf=1, state=T)': 'ActBcl2',
-    'Bad(bf=1, state=M, serine=U) % Bcl2(bf=1)': 'EnaBcl2',
-    '__sink()': '__sink',
-    'Bax(bf=None, s1=1, s2=None, state=A) % Bax(bf=None, s1=None, s2=1, state=A)': 'MAC',
-    'Bax(bf=1, s1=None, s2=None, state=A) % Bcl2(bf=1)': 'AcBaxBcl2'}
+    "Bax(bf=None, s1=None, s2=None, state='A')": 'AcBax',
+    "Bcl2(bf=1) % Bid(bf=1, state='T')": 'ActBcl2',
+    "Bad(bf=1, state='M', serine='U') % Bcl2(bf=1)": 'EnaBcl2',
+    "Bax(bf=None, s1=1, s2=None, state='A') % Bax(bf=None, s1=None, s2=1, state='A')": 'MAC',
+    "Bax(bf=1, s1=None, s2=None, state='A') % Bcl2(bf=1)": 'AcBaxBcl2'}
 
 ## TESTS ===============================================================
 
@@ -242,13 +240,13 @@ class TestChenBiophysJ(unittest.TestCase):
         'spontaneous_pore_BaxA_to_Bax4_kf': 'k9',
         'spontaneous_pore_BaxA_to_Bax4_kr': 'k10' }
     s_name_map = {
-        'Bid(bf=None, state=T)': 'Act',
-        'Bax(bf=None, s1=None, s2=None, state=C)': 'InBax',
+        "Bid(bf=None, state='T')": 'Act',
+        "Bax(bf=None, s1=None, s2=None, state='C')": 'InBax',
         'Bcl2(bf=None)': 'Bcl2',
-        'Bax(bf=None, s1=None, s2=None, state=A)': 'AcBax',
-        'Bcl2(bf=1) % Bid(bf=1, state=T)': 'ActBcl2',
-        'Bax(bf=1, s1=None, s2=None, state=A) % Bcl2(bf=1)': 'AcBaxBcl2',
-        'Bax(bf=None, s1=1, s2=2, state=A) % Bax(bf=None, s1=3, s2=1, state=A) % Bax(bf=None, s1=4, s2=3, state=A) % Bax(bf=None, s1=2, s2=4, state=A)': 'Bax4'
+        "Bax(bf=None, s1=None, s2=None, state='A')": 'AcBax',
+        "Bcl2(bf=1) % Bid(bf=1, state='T')": 'ActBcl2',
+        "Bax(bf=1, s1=None, s2=None, state='A') % Bcl2(bf=1)": 'AcBaxBcl2',
+        "Bax(bf=None, s1=1, s2=2, state='A') % Bax(bf=None, s1=3, s2=1, state='A') % Bax(bf=None, s1=4, s2=3, state='A') % Bax(bf=None, s1=2, s2=4, state='A')": 'Bax4'
     }
 
     def setUp(self):
@@ -340,12 +338,12 @@ class TestChenFEBS_Indirect(unittest.TestCase):
     """Test the PySB version of the "indirect" model from [Chen2007febs]_."""
  
     s_name_map = {
-        'Bid(bf=None, state=T)': 'BH3',
-        'Bax(bf=None, s1=None, s2=None, state=A)': 'Bax',
-        'Bcl2(bf=None)': 'Bcl2',
-        'Bcl2(bf=1) % Bid(bf=1, state=T)': 'BH3Bcl2',
-        'Bax(bf=1, s1=None, s2=None, state=A) % Bcl2(bf=1)': 'BaxBcl2',
-        'Bax(bf=None, s1=1, s2=2, state=A) % Bax(bf=None, s1=3, s2=1, state=A) % Bax(bf=None, s1=4, s2=3, state=A) % Bax(bf=None, s1=2, s2=4, state=A)': 'MAC'}
+        "Bid(bf=None, state='T')": 'BH3',
+        "Bax(bf=None, s1=None, s2=None, state='A')": 'Bax',
+        "Bcl2(bf=None)": 'Bcl2',
+        "Bcl2(bf=1) % Bid(bf=1, state='T')": 'BH3Bcl2',
+        "Bax(bf=1, s1=None, s2=None, state='A') % Bcl2(bf=1)": 'BaxBcl2',
+        "Bax(bf=None, s1=1, s2=2, state='A') % Bax(bf=None, s1=3, s2=1, state='A') % Bax(bf=None, s1=4, s2=3, state='A') % Bax(bf=None, s1=2, s2=4, state='A')": 'MAC'}
 
     def setUp(self):
         self.model = chen_febs_indirect.model
@@ -371,14 +369,14 @@ class TestChenFEBS_Direct(unittest.TestCase):
     """Test the PySB version of the "direct" model from [Chen2007febs]_."""
 
     s_name_map = {
-        'Bid(bf=None, state=T)': 'Act',
-        'Bad(bf=None, state=M, serine=U)': 'Ena',
-        'Bax(bf=None, s1=None, s2=None, state=C)': 'InBax',
+        "Bid(bf=None, state='T')": 'Act',
+        "Bad(bf=None, state='M', serine='U')": 'Ena',
+        "Bax(bf=None, s1=None, s2=None, state='C')": 'InBax',
         'Bcl2(bf=None)': 'Bcl2',
-        'Bax(bf=None, s1=None, s2=None, state=A)': 'Bax',
-        'Bcl2(bf=1) % Bid(bf=1, state=T)': 'ActBcl2',
-        'Bad(bf=1, state=M, serine=U) % Bcl2(bf=1)': 'EnaBcl2',
-        'Bax(bf=None, s1=1, s2=2, state=A) % Bax(bf=None, s1=3, s2=1, state=A) % Bax(bf=None, s1=4, s2=3, state=A) % Bax(bf=None, s1=2, s2=4, state=A)': 'MAC'}
+        "Bax(bf=None, s1=None, s2=None, state='A')": 'Bax',
+        "Bcl2(bf=1) % Bid(bf=1, state='T')": 'ActBcl2',
+        "Bad(bf=1, state='M', serine='U') % Bcl2(bf=1)": 'EnaBcl2',
+        "Bax(bf=None, s1=1, s2=2, state='A') % Bax(bf=None, s1=3, s2=1, state='A') % Bax(bf=None, s1=4, s2=3, state='A') % Bax(bf=None, s1=2, s2=4, state='A')": 'MAC'}
 
     def setUp(self):
         self.model = chen_febs_direct.model
@@ -422,11 +420,9 @@ class TestCui_Direct(unittest.TestCase):
              'Ena': 'Act*EnaBcl2*k12 - ActBcl2*Ena*k11 - Bcl2*Ena*k9 - Ena*u7 + EnaBcl2*k10 + __source*p4',
              'InBax': 'AcBax*k8 - Act*InBax*k1 - InBax*u1 + __source*p1',
              'Bcl2': '-Act*Bcl2*k4 + ActBcl2*k5 - Bcl2*Ena*k9 - Bcl2*u4 + EnaBcl2*k10 + __source*p3',
-             '__source': '0',
              'AcBax': '-2*AcBax**2*k16 - AcBax*k8 - AcBax*u2 + Act*InBax*k1 + 2*MAC*k17',
              'ActBcl2': 'Act*Bcl2*k4 + Act*EnaBcl2*k12 - ActBcl2*Ena*k11 - ActBcl2*k5 - ActBcl2*u5',
              'EnaBcl2': '-Act*EnaBcl2*k12 + ActBcl2*Ena*k11 + Bcl2*Ena*k9 - EnaBcl2*k10 - EnaBcl2*u8',
-             '__sink': 'AcBax*u2 + Act*u3 + ActBcl2*u5 + Bcl2*u4 + Ena*u7 + EnaBcl2*u8 + InBax*u1 + MAC*u9',
              'MAC': 'AcBax**2*k16 - MAC*k17 - MAC*u9'}))
 
 class TestCui_Direct1(unittest.TestCase):
@@ -443,11 +439,9 @@ class TestCui_Direct1(unittest.TestCase):
              'Ena': 'AcBax*EnaBcl2*k14 - AcBaxBcl2*Ena*k13 + Act*EnaBcl2*k12 - ActBcl2*Ena*k11 - Bcl2*Ena*k9 - Ena*u7 + EnaBcl2*k10 + __source*p4',
              'InBax': 'AcBax*k8 - Act*InBax*k1 - InBax*u1 + __source*p1',
              'Bcl2': '-AcBax*Bcl2*k2 + AcBaxBcl2*k3 - Act*Bcl2*k4 + ActBcl2*k5 - Bcl2*Ena*k9 - Bcl2*u4 + EnaBcl2*k10 + __source*p3',
-             '__source': '0',
              'AcBax': '-2*AcBax**2*k16 - AcBax*ActBcl2*k6 - AcBax*Bcl2*k2 - AcBax*EnaBcl2*k14 - AcBax*k8 - AcBax*u2 + AcBaxBcl2*Act*k7 + AcBaxBcl2*Ena*k13 + AcBaxBcl2*k3 + Act*InBax*k1 + 2*MAC*k17',
              'ActBcl2': '-AcBax*ActBcl2*k6 + AcBaxBcl2*Act*k7 + Act*Bcl2*k4 + Act*EnaBcl2*k12 - ActBcl2*Ena*k11 - ActBcl2*k5 - ActBcl2*u5',
              'EnaBcl2': '-AcBax*EnaBcl2*k14 + AcBaxBcl2*Ena*k13 - Act*EnaBcl2*k12 + ActBcl2*Ena*k11 + Bcl2*Ena*k9 - EnaBcl2*k10 - EnaBcl2*u8',
-             '__sink': 'AcBax*u2 + AcBaxBcl2*u6 + Act*u3 + ActBcl2*u5 + Bcl2*u4 + Ena*u7 + EnaBcl2*u8 + InBax*u1 + MAC*u9',
              'MAC': 'AcBax**2*k16 - MAC*k17 - MAC*u9',
              'AcBaxBcl2': 'AcBax*ActBcl2*k6 + AcBax*Bcl2*k2 + AcBax*EnaBcl2*k14 - AcBaxBcl2*Act*k7 - AcBaxBcl2*Ena*k13 - AcBaxBcl2*k3 - AcBaxBcl2*u6'}))
 
@@ -465,11 +459,9 @@ class TestCui_Direct2(unittest.TestCase):
              'Ena': 'AcBax*EnaBcl2*k14 - AcBaxBcl2*Ena*k13 + Act*EnaBcl2*k12 - ActBcl2*Ena*k11 - Bcl2*Ena*k9 - Ena*u7 + EnaBcl2*k10 + __source*p4',
              'InBax': '-AcBax*InBax*k15 + AcBax*k8 - Act*InBax*k1 - InBax*u1 + __source*p1',
              'Bcl2': '-AcBax*Bcl2*k2 + AcBaxBcl2*k3 - Act*Bcl2*k4 + ActBcl2*k5 - Bcl2*Ena*k9 - Bcl2*u4 + EnaBcl2*k10 + __source*p3',
-             '__source': '0',
              'AcBax': '-2*AcBax**2*k16 - AcBax*ActBcl2*k6 - AcBax*Bcl2*k2 - AcBax*EnaBcl2*k14 - AcBax*InBax*k15 - AcBax*k8 - AcBax*u2 + AcBaxBcl2*Act*k7 + AcBaxBcl2*Ena*k13 + AcBaxBcl2*k3 + Act*InBax*k1 + 2*MAC*k17',
              'ActBcl2': '-AcBax*ActBcl2*k6 + AcBaxBcl2*Act*k7 + Act*Bcl2*k4 + Act*EnaBcl2*k12 - ActBcl2*Ena*k11 - ActBcl2*k5 - ActBcl2*u5',
              'EnaBcl2': '-AcBax*EnaBcl2*k14 + AcBaxBcl2*Ena*k13 - Act*EnaBcl2*k12 + ActBcl2*Ena*k11 + Bcl2*Ena*k9 - EnaBcl2*k10 - EnaBcl2*u8',
-             '__sink': 'AcBax*u2 + AcBaxBcl2*u6 + Act*u3 + ActBcl2*u5 + Bcl2*u4 + Ena*u7 + EnaBcl2*u8 + InBax*u1 + MAC*u9',
              'MAC': 'AcBax**2*k16 + AcBax*InBax*k15 - MAC*k17 - MAC*u9',
              'AcBaxBcl2': 'AcBax*ActBcl2*k6 + AcBax*Bcl2*k2 + AcBax*EnaBcl2*k14 - AcBaxBcl2*Act*k7 - AcBaxBcl2*Ena*k13 - AcBaxBcl2*k3 - AcBaxBcl2*u6'}))
 
@@ -498,18 +490,18 @@ class TestHowells(unittest.TestCase):
         'release_BadC1433_to_BadCU_k': 'k_Bad_rel'}
     # Mapping of species names
     s_name_map = {
-        'Bid(bf=None, state=T)': 'tBid',
-        'Bax(bf=None, s1=None, s2=None, state=C)': 'Bak_inac',
+        "Bid(bf=None, state='T')": 'tBid',
+        "Bax(bf=None, s1=None, s2=None, state='C')": 'Bak_inac',
         'Bcl2(bf=None)': 'Bcl2',
-        'Bad(bf=None, state=M, serine=U)': 'Bad_m',
-        'Bax(bf=None, s1=None, s2=None, state=A)': 'Bak',
-        'Bcl2(bf=1) % Bid(bf=1, state=T)': 'tBidBcl2',
-        'Bad(bf=None, state=C, serine=U)': 'Bad',
-        'Bad(bf=1, state=M, serine=U) % Bcl2(bf=1)': 'BadBcl2',
-        'Bad(bf=None, state=C, serine=P)': 'pBad',
-        'Bax(bf=1, s1=None, s2=None, state=A) % Bcl2(bf=1)': 'BakBcl2',
-        'Bax(bf=None, s1=1, s2=2, state=A) % Bax(bf=None, s1=3, s2=1, state=A) % Bax(bf=None, s1=4, s2=3, state=A) % Bax(bf=None, s1=2, s2=4, state=A)': 'Bak_poly',
-        'Bad(bf=None, state=C, serine=B)': 'pBad1433'}
+        "Bad(bf=None, state='M', serine='U')": 'Bad_m',
+        "Bax(bf=None, s1=None, s2=None, state='A')": 'Bak',
+        "Bcl2(bf=1) % Bid(bf=1, state='T')": 'tBidBcl2',
+        "Bad(bf=None, state='C', serine='U')": 'Bad',
+        "Bad(bf=1, state='M', serine='U') % Bcl2(bf=1)": 'BadBcl2',
+        "Bad(bf=None, state='C', serine='P')": 'pBad',
+        "Bax(bf=1, s1=None, s2=None, state='A') % Bcl2(bf=1)": 'BakBcl2',
+        "Bax(bf=None, s1=1, s2=2, state='A') % Bax(bf=None, s1=3, s2=1, state='A') % Bax(bf=None, s1=4, s2=3, state='A') % Bax(bf=None, s1=2, s2=4, state='A')": 'Bak_poly',
+        "Bad(bf=None, state='C', serine='B')": 'pBad1433'}
 
     def setUp(self):
         self.model = howells.model

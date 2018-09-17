@@ -8,9 +8,9 @@ models = ['lopez_embedded', 'lopez_direct', 'lopez_indirect',
           'howells']
 
 # Mito only
-print('%-24s %11s %10s %12s %11s %10s %12s' %
+print(('%-24s %11s %10s %12s %11s %10s %12s' %
         ('Model', 'Mito Rules', 'Mito ODEs', 'Mito Params',
-         'Full Rules', 'Full ODEs', 'Full Params'))
+         'Full Rules', 'Full ODEs', 'Full Params')))
 
 for model in models:
     exec('import earm.mito.%s' % model)
@@ -35,8 +35,8 @@ for model in models:
 
     generate_equations(m_mito)
     generate_equations(m_full)
-    print("%-24s %11d %10d %12d %11d %10d %12d" %
+    print(("%-24s %11d %10d %12d %11d %10d %12d" %
             (model, len(m_mito.rules), len(m_mito.odes), len(m_mito.parameters),
-             len(m_full.rules), len(m_full.odes), len(m_full.parameters)))
+             len(m_full.rules), len(m_full.odes), len(m_full.parameters))))
 
 # Full models

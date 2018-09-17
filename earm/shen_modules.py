@@ -69,7 +69,7 @@ Stoch. rate constant = Det. rate constant / (N_A * vol)
 # We'll need everything from the pysb core and some macros:
 
 from pysb import *
-from shared import *
+from .shared import *
 from pysb.macros import catalyze_one_step_reversible, catalyze_one_step, \
                         synthesize_degrade_table, degrade, equilibrate
 from pysb.util import alias_model_components

@@ -86,7 +86,7 @@ def add_caspase8(model):
         model.add_component(kc)
 
         rb = Rule('bind_C8A_BidU_to_C8ABidU',
-             C8(state='A', bf=None) + Bid(state='U', bf=None) <>
+             C8(state='A', bf=None) + Bid(state='U', bf=None) |
              C8(state='A', bf=1) % Bid(state='U', bf=1),
              kf, kr, _export=False)
         rc = Rule('catalyze_C8ABidU_to_C8A_BidT',
