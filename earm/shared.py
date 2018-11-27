@@ -194,7 +194,7 @@ def assemble_pore_spontaneous(subunit, klist):
 
     # Create the pore formation rule
     macros._macro_rule('spontaneous_pore',
-        free_subunit + free_subunit + free_subunit + free_subunit <>
+        free_subunit + free_subunit + free_subunit + free_subunit |
         subunit(s1=1, s2=4) % subunit(s1=2, s2=1) % \
         subunit(s1=3, s2=2) % subunit(s1=4, s2=3),
         klist, ['kf', 'kr'], name_func=pore_rule_name)
@@ -221,7 +221,7 @@ def displace_reversibly(lig1, lig2, target, klist):
     """
 
     return macros._macro_rule('displace',
-         lig1({'bf':None}) + lig2({'bf':1}) % target({'bf':1}) <>
+         lig1({'bf':None}) + lig2({'bf':1}) % target({'bf':1}) |
          lig1({'bf':1}) % target({'bf':1}) + lig2({'bf':None}),
          klist, ['fwd_kf', 'rev_kf'])
 
@@ -239,7 +239,7 @@ def catalyze_convert(sub1, sub2, product, klist, site='bf'):
     macros._verify_sites(sub2, site)
 
     components = macros._macro_rule('bind',
-                             sub1({site: None}) + sub2({site: None}) <>
+                             sub1({site: None}) + sub2({site: None}) |
                              sub1({site: 1}) % sub2({site: 1}),
                              klist[0:2], ['kf', 'kr'])
     components |= macros._macro_rule('convert',
@@ -258,7 +258,7 @@ def one_step_conv(sub1, sub2, product, klist, site='bf'):
     macros._verify_sites(sub2, site)
 
     return macros._macro_rule('convert',
-                       sub1({site: None}) + sub2({site: None}) <> product,
+                       sub1({site: None}) + sub2({site: None}) | product,
                        klist, ['kf', 'kr'])
 
 def pore_bind(subunit, sp_site1, sp_site2, sc_site, size, cargo, c_site,
@@ -342,7 +342,7 @@ def pore_bind(subunit, sp_site1, sp_site2, sc_site, size, cargo, c_site,
     # Create the rules
     name_func = functools.partial(pore_bind_rule_name, size=size)
     components |= macros._macro_rule('pore_bind',
-                              pore_free + cargo_free <> pc_complex,
+                              pore_free + cargo_free | pc_complex,
                               klist[0:2], ['kf', 'kr'],
                               name_func=name_func)
 

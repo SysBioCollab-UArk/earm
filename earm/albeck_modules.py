@@ -307,7 +307,7 @@ def Bax_tetramerizes(bax_active_state='A', rate_scaling_factor=1):
            Bax(s1=2, s2=1, **active_unbound) %
            Bax(s1=3, s2=2, **active_unbound) %
            Bax(s1=4, s2=3, **active_unbound))
-    Rule('Bax_dimerization', active_bax_monomer + active_bax_monomer <> bax2,
+    Rule('Bax_dimerization', active_bax_monomer + active_bax_monomer | bax2,
          Parameter('Bax_dimerization_kf', KF*rate_scaling_factor),
          Parameter('Bax_dimerization_kr', KR))
     # Notes on the parameter values used below:
@@ -321,7 +321,7 @@ def Bax_tetramerizes(bax_active_state='A', rate_scaling_factor=1):
     #  - BNG apparently applies a scaling factor of 2 to the reverse reaction
     #    rate, for reasons we do not entirely understand. The factor of 0.5 is
     #    applied here to make the rate match the original Albeck ODEs.
-    Rule('Bax_tetramerization', bax2 + bax2 <> bax4,
+    Rule('Bax_tetramerization', bax2 + bax2 | bax4,
          Parameter('Bax_tetramerization_kf', 2*KF*rate_scaling_factor),
          Parameter('Bax_tetramerization_kr', 0.5*KR))
 
