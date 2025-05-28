@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 # Load your EARM dataset
-input_path = "/Users/najahbiggs/PycharmProjects/earm/xpdata/forfits/EC-RP_IMS-RP_IC-RP_data_for_models.csv"
+input_path = "EC-RP_IMS-RP_IC-RP_data_for_models.csv"
 
 df = pd.read_csv(input_path)
 
