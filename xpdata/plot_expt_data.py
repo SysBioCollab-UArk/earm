@@ -39,11 +39,12 @@ plt.legend(loc='best')
 
 params_file = os.path.join('..', 'EARM_2_0_M1a_fitted_params.txt')
 params = np.genfromtxt(params_file, dtype=None, delimiter=',', encoding="utf_8_sig")
+for p_name, p_val in params:
+    model.parameters[p_name].value = p_val
 
 tspan = np.linspace(0, 6*60*60, 1001)
 sim = ScipyOdeSimulator(model, tspan, verbose=True)
-param_values = {p_name: p_val for p_name, p_val in params}
-output = sim.run(param_values=param_values)
+output = sim.run()
 
 for obs, color in zip(model.observables, colors):
     plt.plot(tspan / 3600, output.observables[obs.name] / output.observables[obs.name][-1], lw=2, color=color,

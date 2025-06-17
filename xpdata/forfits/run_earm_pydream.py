@@ -4,6 +4,12 @@ from param_calibration import *
 from pysb.simulator import ScipyOdeSimulator
 
 exp_data_file = output_file
+
+params_file = os.path.join('..', '..', 'EARM_2_0_M1a_fitted_params.txt')
+params = np.genfromtxt(params_file, dtype=None, delimiter=',', encoding="utf_8_sig")
+for p_name, p_val in params:
+    model.parameters[p_name].value = p_val
+
 solver = ScipyOdeSimulator(model)
 sim_protocol = SimulationProtocol(solver)
 
